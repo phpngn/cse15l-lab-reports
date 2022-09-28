@@ -10,4 +10,6 @@
 * Item 3
 * Item 4
 
+[Lab Report 1](https://phpngn.github.io/cse15l-lab-reports/lab-report-1-week-0.html)
+
 ## End of file
