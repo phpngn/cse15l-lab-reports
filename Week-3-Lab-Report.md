@@ -3,37 +3,43 @@
 
     import java.io.IOException;
     import java.net.URI;
+    import java.util.List;
     import java.util.ArrayList;
-    import java.util.Arrays;
+
 
     class Handler implements URLHandler {
-        // The one bit of state on the server: a number that will be manipulated by
-        // various requests.
-        String data;
-        ArrayList<String> database = new ArrayList<>();
+        List<String> database = new ArrayList<>();
 
         public String handleRequest(URI url) {
-            if (url.getPath().contains("/add")) {
+            if (url.getPath().equals("/")) {
+                return String.format("There are %d total items to search.", database.size());
+            }
+            else if (url.getPath().contains("/add")) {
                 String[] parameters = url.getQuery().split("=");
                 database.add(parameters[1]);
-                return "Add successfully";
+                return "Add successfully!";
             } else if (url.getPath().contains("/search")){
                 if (database.size() == 0)
                     return "Database is empty";
                 else
                 {
                     String[] parameters = url.getQuery().split("=");
-                    ArrayList<String> result = new ArrayList<>();
-                    for (String string: database)
+                    List<String> result = new ArrayList<>();
+                    String found = "";
+                    for (String s: database)
                     {
-                        if (string.contains(parameters[1]))
+                        if (s.contains(parameters[1]))
                         {
-                            result.add(string);
+                            result.add(s);
                         }
 
                     }
-                    System.out.println(Arrays.toString(result.toArray()));
-                    return "Result";
+                    if (result.size() > 0) {
+                        found = String.join("\n", result);
+                        return String.format("Result: \n%s", found);
+                    }
+                    else    
+                        return "Not found";
                 }
             } else 
                 return "404 not found";            
@@ -53,18 +59,26 @@
         }
     }
 
-This is my approach with the SearchEngine method so far. However, the code cannot compile because of this error and I am not sure what cause it so I still do not how to debug it. 
+* The Search Engine when adding a new string:
 
-    C:\Users\phapn\OneDrive\Documents\GitHub\wavelet> javac SearchEngine.java
-    SearchEngine.java:6: error: cannot find symbol
-    class Handler implements URLHandler {
-                            ^
-    symbol: class URLHandler
-    SearchEngine.java:49: error: incompatible types: Handler cannot be converted to URLHandler
-            Server.start(port, new Handler());
-                            ^
-    Note: Some messages have been simplified; recompile with -Xdiags:verbose to get full output
-    2 errors
+![image](add1.jpg)
+
+The code first calls getPath() and contain("/add") on the url object to retrieve the path and check whether there is an adding request. If there is, the code then invokes getQuery() and split() on the url object to process the path and get the adding item. Finally, the code calls add() to add the item into the database, printing the "Add successfully!" message.
+
+
+* The Search Engine when querying for the keyword "app" with the database containing "apple, pineapple, anewstringtoadd":
+
+![image](search.jpg)
+
+The code first calls getPath() and contain("/search") on the url object to retrieve the path and check whether there is an searching request. If there is, the code then invokes getQuery() and split() on the url object to process the path and get the searching keyword. The code now runs a range-based for loop, calling contain() on every items in the database against the searching keyword and adding all matching items to a result list. Finally, it prints out the result list for the user using the String format method.
+
+
+* The Search Engine when the path is illegal:
+
+![image](illegal.jpg)
+
+The code calls getPath() on the url object to retrieve the path then calls equals("/"), contain("/add"), and contain("/search") on that path through a list of if statement to process the user's request. However, because the path cannot satisfy any of the three conditions, it is an illegal request so the code just prints out the error message and does not do anything further.
+
 
 ## Part 2: Debugging
 ### Reversed method from ArrayExample.java:
@@ -73,9 +87,11 @@ This is my approach with the SearchEngine method so far. However, the code canno
 ![image](reversed_failing_input.jpg)
 
 * Symptoms: 
+
 ![image](reversed_symptom.jpg)
 
 * Bug:
+
 ![image](reversed_bug.jpg)
 
 * Connection between the symptom and the bug: 
