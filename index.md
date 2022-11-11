@@ -16,4 +16,6 @@
 
 [Week 3 Lab Report](https://phpngn.github.io/cse15l-lab-reports/Week-3-Lab-Report.html)
 
+[Week 5 Lab Report](https://phpngn.github.io/cse15l-lab-reports/Week-5-Lab-Report.html)
+
 ## End of file
