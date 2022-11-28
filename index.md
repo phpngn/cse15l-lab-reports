@@ -20,4 +20,6 @@
 
 [Week 7 Lab Report](https://phpngn.github.io/cse15l-lab-reports/Week-7-Lab-Report.html)
 
+[Week 9 Lab Report](https://phpngn.github.io/cse15l-lab-reports/Week-9-Lab-Report.html)
+
 ## End of file
