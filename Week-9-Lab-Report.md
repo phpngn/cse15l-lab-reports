@@ -28,11 +28,10 @@
 However, I keep getting this error for all 3 of my submission, which I think cause by this if statement block in grade.sh:
 
     cp student-submission/ListExamples.java ./
-    if [ $? -ne  0 ]
-        then
+    if [ $? -ne  0 ] then
             echo "Cannot find the correct java file in the submission"
             exit 1
-        fi
+    fi
         
 I use this if statement to check whether the java file in the submission has a correct name by check if the cp command can find and copy the correct file successfully or not. If the cp command does not run successfully (exit code != 0), then it means that the file either has a wrong name or does not exist. 
 
